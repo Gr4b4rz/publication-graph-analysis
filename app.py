@@ -9,7 +9,7 @@ def main():
     # print(analyzer.is_bipartite())
     # analyzer.get_deg_list_by_partition('titles')
     # analyzer.get_deg_list_by_partition('authors')
-    # analyzer.get_path_length_between_each_node()
+    print(analyzer.get_path_length_between_each_node())
 
 
 if __name__ == '__main__':

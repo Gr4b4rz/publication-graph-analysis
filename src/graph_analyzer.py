@@ -63,17 +63,13 @@ def get_mutual_pub_perc_distribution(pub_graph, auth_graph, min_pubs=3):
     Find out how closely authors are intertwined
     """
     result = []
-    authors_degs = get_deg_list_by_partition(pub_graph, 'authors')
+    authors_degs = [(auth, deg) for auth, deg in get_deg_list_by_partition(pub_graph, 'authors') if
+                    deg >= min_pubs]
 
-    for i, j in itertools.combinations(auth_graph.nodes(), 2):
-        i_deg = next((deg for auth, deg in authors_degs if auth == i), None)
-        j_deg = next((deg for auth, deg in authors_degs if auth == j), None)
-        assert i_deg and j_deg
-
-        if i_deg >= min_pubs and j_deg >= min_pubs:
-            mutual_pubs = auth_graph.number_of_edges(i, j)
-            all_pubs = min(i_deg, j_deg)
-            result.append(((i, j), mutual_pubs / all_pubs * 100))
+    for i, j in itertools.combinations(authors_degs, 2):
+        mutual_pubs = auth_graph.number_of_edges(i[0], j[0])
+        all_pubs = min(i[1], j[1])
+        result.append(((i[0], j[0]), mutual_pubs / all_pubs * 100))
 
     return sorted(result, key=lambda x: x[1], reverse=True)
 

@@ -86,8 +86,10 @@ class TestGraphAnalysis:
         result = analyzer.get_mutual_pub_perc_distribution(
             self.ctx.publications_graph, self.ctx.co_authorship_graph, 1)
 
-        assert (('M. Parniak', 'M. Dąbrowski'), 100.0) in result
-        assert (('M. Mazelanik', 'P. Szewczak'), 0.0) in result
+        assert (('M. Dąbrowski', 'M. Parniak'), 100.0) or (
+            ('M. Parniak', 'M. Dąbrowski'), 100.0) in result
+        assert (('M. Mazelanik', 'P. Szewczak'), 0.0) or (
+            ('P. Szewczak', 'M. Mazelanik'), 0.0) in result
 
     def test_graph_density(self):
         result = analyzer.get_graph_density(self.ctx.simple_co_authorship_graph)

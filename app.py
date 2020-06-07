@@ -8,42 +8,49 @@ def main():
     ctx = GraphContext(path='resources/publications.csv')
 
     # rozkład stopni wierzchołków
-    authors_degrees = ga.get_deg_list_by_partition(graph=ctx.publications_graph, partition='authors')
+    authors_degrees = ga.get_deg_list_by_partition(
+        graph=ctx.publications_graph, partition='authors')
     gv.show_degree_distribution(data=authors_degrees, title="Rozkład stopni wierzchołków autorów")
 
-    publications_degrees = ga.get_deg_list_by_partition(graph=ctx.publications_graph, partition='titles')
-    gv.show_degree_distribution(data=publications_degrees, title="Rozkład stopni wierzchołków publikacji")
+    publications_degrees = ga.get_deg_list_by_partition(
+        graph=ctx.publications_graph, partition='titles')
+    gv.show_degree_distribution(data=publications_degrees,
+                                title="Rozkład stopni wierzchołków publikacji")
 
-    # rozkład długości drogi między wierzchołkami dla grafu współautorstwa
+    # Rozkład długości drogi między wierzchołkami dla grafu współautorstwa
     path_lengths = ga.get_path_length_between_each_node(graph=ctx.co_authorship_graph)
     gv.show_path_length_between_each_node_distribution(data=path_lengths)
 
-    # czy graf jest spójny
+    # Czy graf jest spójny?
     is_connected = ga.is_connected(graph=ctx.publications_graph)
     if is_connected:
         print("Analizowany graf jest spójny")
     else:
         print("Analizowany graf nie jest spójny")
 
-    # rozkład wierzchołków składowych spójny
+    # Rozkład wierzchołków składowych spójnych
+    authors_connected_parts = ga.get_connected_parts_dist(
+        graph=ctx.publications_graph, partition='authors')
+    print("Liczba składowych spójnych: {}".format(len(authors_connected_parts)))
+    gv.show_connected_parts_distribution(
+        data=authors_connected_parts, title="Rozkład liczby wierzchołków składowych spójnych autorów")
 
-    authors_connected_parts = ga.get_connected_parts_dist(graph=ctx.publications_graph, partition='authors')
-    gv.show_connected_parts_distribution(data=authors_connected_parts, title="Rozkład liczby wierzchołków składowych spójnych autorów")
-
-    publications_connected_parts = ga.get_connected_parts_dist(graph=ctx.publications_graph, partition='titles')
-    gv.show_connected_parts_distribution(data=publications_connected_parts, title="Rozkład liczby wierzchołków składowych spójnych publikacji")
+    publications_connected_parts = ga.get_connected_parts_dist(
+        graph=ctx.publications_graph, partition='titles')
+    gv.show_connected_parts_distribution(
+        data=publications_connected_parts, title="Rozkład liczby wierzchołków składowych spójnych publikacji")
 
     # Dla grafu współautorstwa wyznaczyć rozkład stopnia zwielokrotnienia
     parallel_edges = ga.get_parallel_edges_distribution(multi_graph=ctx.publications_graph)
     gv.show_parallel_edges_distribution(data=parallel_edges)
 
-    # rozkład odsetka wspólnych publikacji
-    mutual_pub = ga.get_mutual_pub_perc_distribution(pub_graph=ctx.publications_graph, auth_graph=ctx.co_authorship_graph)
+    # Rozkład odsetka wspólnych publikacji
+    mutual_pub = ga.get_mutual_pub_perc_distribution(
+        pub_graph=ctx.publications_graph, auth_graph=ctx.co_authorship_graph)
     gv.show_mutual_pub_distribution(data=mutual_pub)
-    #
 
     # DLA GRAFU PROSTEGO
-    # obliczyć gęstość grafu
+    # Obliczyć gęstość grafu
     e = ga.get_graph_density(ctx.simple_co_authorship_graph)
     print("Gęstość grafu:{}".format(e))
 

@@ -34,20 +34,20 @@ def show_path_length_between_each_node_distribution(data):
 
 
 def show_connected_parts_distribution(data, title):
-    data = [len(item) for item in data]
-    plot_percentage_histogram(title=title,xlabel="Liczba wierzchołków składowych spójnych dla publikacji",
+    plot_percentage_histogram(title=title, xlabel="Liczba wierzchołków składowych spójnych",
                               ylabel="Procentowy udział", data=data, bins=200)
 
 
 def show_parallel_edges_distribution(data):
     data = [val for _, val in data]
-    plot_percentage_histogram(title="Rozkład stopnia zwielokrotnienia równoległych krawędzi grafu", xlabel="Stopien zwielokrotnienia",
-                              ylabel="Procentowy udział", data=data, bins=2)
+    plot_percentage_histogram(title="Rozkład stopnia zwielokrotnienia równoległych krawędzi grafu",
+                              xlabel="Stopien zwielokrotnienia", ylabel="Procentowy udział", data=data, bins=2)
 
 
 def show_clustering_coef_distribution(data):
-    plot_percentage_histogram(title="Rozkład współczynnika klasteryzacji wierzchołków", xlabel="Współczynnik klasateryzacji",
-                              ylabel="Procentowy udział", data=data.values(), bins=10)
+    plot_percentage_histogram(title="Rozkład współczynnika klasteryzacji wierzchołków",
+                              xlabel="Współczynnik klasteryzacji", ylabel="Procentowy udział",
+                              data=data.values(), bins=10)
 
 
 def show_mutual_pub_distribution(data):

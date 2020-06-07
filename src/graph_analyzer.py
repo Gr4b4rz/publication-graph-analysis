@@ -17,6 +17,18 @@ def get_deg_list_by_partition(graph, partition):
     return bipartite.degrees(graph, nodes)[1]
 
 
+def get_number_of_nodes_by_partition(graph, partition):
+    """
+    Get number of nodes of given partition of bipartite graph
+    """
+    if not bipartite.is_bipartite(graph):
+        return 0
+
+    nodes = [node for node in graph.nodes if
+             graph.nodes[node]['bipartite'] == partition]
+    return len(nodes)
+
+
 def get_path_length_between_each_node(graph):
     """
     Get path length distribution for given graph
@@ -26,16 +38,16 @@ def get_path_length_between_each_node(graph):
 
 def get_connected_parts_dist(graph, partition):
     """
-    Get degree distribution of each connected component, largest first,
+    Get nodes number distribution of each connected component, largest first,
     for given partition of bipartite graph
     """
     dist = []
     sorted_componensts = sorted(nx.connected_components(graph), key=len, reverse=True)
     subgraphs = [graph.subgraph(c).copy() for c in sorted_componensts]
     for s in subgraphs:
-        degs = get_deg_list_by_partition(s, partition)
-        if degs:
-            dist.append(degs)
+        nodes = get_number_of_nodes_by_partition(s, partition)
+        if nodes:
+            dist.append(nodes)
 
     return dist
 

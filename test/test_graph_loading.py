@@ -57,21 +57,12 @@ class TestGraphAnalysis:
         self.ctx.publications_graph.remove_edge("publication1", "M. Lipka")
         pub_dist = analyzer.get_connected_parts_dist(self.ctx.publications_graph, 'titles')
         auth_dist = analyzer.get_connected_parts_dist(self.ctx.publications_graph, 'authors')
-        assert len(pub_dist) == 1
-        assert len(auth_dist) == 2
-
         expected_pub_deg_list = [6, 5, 3]
-        # Subgraphs are sorted - largest first
         expected_max_auth_deg_list = [3, 3, 3, 1, 1, 1, 1, 1]
         expected_min_auth_deg_list = [0]
-
-        assert sorted([num for (pub, num) in pub_dist[0]], reverse=True) == expected_pub_deg_list
-
-        assert sorted([num for (pub, num) in auth_dist[0]],
-                      reverse=True) == expected_max_auth_deg_list
-
-        assert sorted([num for (pub, num) in auth_dist[1]],
-                      reverse=True) == expected_min_auth_deg_list
+        assert pub_dist[0] == len(expected_pub_deg_list)
+        assert auth_dist[0] == len(expected_max_auth_deg_list)
+        assert auth_dist[1] == len(expected_min_auth_deg_list)
 
         # cleanup
         self.ctx.publications_graph.add_edge("publication1", "M. Lipka")

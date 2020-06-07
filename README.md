@@ -15,4 +15,8 @@
 
 3. Run
 
-```python graph-analizer.py```
+```python3 app.py```
+
+3. Run tests from project root directory
+
+```pytest```

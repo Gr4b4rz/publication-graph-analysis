@@ -112,9 +112,11 @@ def get_clustering_coef_dist(graph, min_deg=4):
     return result
 
 
-def get_clustering_coef_list(graph, top_x=25):
+def get_clustering_coef_list(pub_graph, graph, top_x=25):
     """
     Get `top_x` greatest clustering coefficients list
     """
     clustering_coefs = nx.clustering(graph)
-    return dict(sorted(clustering_coefs.items(), key=itemgetter(1), reverse=True)[: top_x])
+    result = [(pub_graph.degree(auth), (auth, coef)) for auth, coef in clustering_coefs.items()]
+    result = sorted(result, key=itemgetter(0), reverse=True)[: top_x]
+    return result

@@ -65,7 +65,7 @@ def main():
 
     # Wylistować współczynniki klasteryzacji wierzchołków dla 25
     print("Współczynniki klasteryzacji")
-    pprint(ga.get_clustering_coef_list(ctx.simple_co_authorship_graph))
+    pprint(ga.get_clustering_coef_list(ctx.publications_graph, ctx.simple_co_authorship_graph))
 
 
 if __name__ == '__main__':

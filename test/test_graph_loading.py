@@ -96,6 +96,8 @@ class TestGraphAnalysis:
             assert author in result.keys()
 
     def test_get_clustering_coef_list(self):
-        result = analyzer.get_clustering_coef_list(self.ctx.simple_co_authorship_graph, top_x=6)
-        for author in {'M. Parniak', 'M. Dąbrowski', 'W. Wasilewski'}:
-            assert author not in result.keys()
+        result = analyzer.get_clustering_coef_list(
+            self.ctx.publications_graph, self.ctx.simple_co_authorship_graph, top_x=6)
+        authors = [auth[0] for _, auth in result]
+        for auth in {'M. Parniak', 'M. Dąbrowski', 'W. Wasilewski'}:
+            assert auth in authors

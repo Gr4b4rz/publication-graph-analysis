@@ -41,7 +41,8 @@ def main():
         data=publications_connected_parts, title="Rozkład liczby wierzchołków składowych spójnych publikacji")
 
     # Dla grafu współautorstwa wyznaczyć rozkład stopnia zwielokrotnienia
-    parallel_edges = ga.get_parallel_edges_distribution(multi_graph=ctx.publications_graph)
+    parallel_edges = ga.get_parallel_edges_distribution(multi_graph=ctx.co_authorship_graph)
+    # parallel_edges = [1,1,1,1,1,0,0,0,0,1,0,0,1]
     gv.show_parallel_edges_distribution(data=parallel_edges)
 
     # Rozkład odsetka wspólnych publikacji
@@ -51,12 +52,12 @@ def main():
 
     # DLA GRAFU PROSTEGO
     # Obliczyć gęstość grafu
-    e = ga.get_graph_density(ctx.simple_co_authorship_graph)
-    print("Gęstość grafu:{}".format(e))
+    density = ga.get_graph_density(ctx.simple_co_authorship_graph)
+    print("Gęstość grafu:{}".format(density))
 
     # Wyznaczyć średnią wartość współczynnika klasteryzacji wierzchołków
-    f = ga.get_clustering_coef_mean(ctx.simple_co_authorship_graph)
-    print("Średnia wartość współczynnika klateryzacji wierzchołków: {}".format(f))
+    mean_coef = ga.get_clustering_coef_mean(ctx.simple_co_authorship_graph)
+    print("Średnia wartość współczynnika klateryzacji wierzchołków: {}".format(mean_coef))
 
     # Wyznaczyć rozkład współczynnika klasteryzacji wierzchołków
     clustering_coef = ga.get_clustering_coef_dist(ctx.simple_co_authorship_graph)

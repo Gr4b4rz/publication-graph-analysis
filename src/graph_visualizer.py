@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
-from matplotlib.ticker import PercentFormatter
+from collections import Counter
+from matplotlib.ticker import PercentFormatter, FormatStrFormatter
 
 
 def plot_percentage_histogram(title, xlabel, data, ylabel="Procentowy udział", bins=None, log=False):
@@ -16,7 +17,7 @@ def plot_percentage_histogram(title, xlabel, data, ylabel="Procentowy udział", 
 def show_degree_distribution(data, title):
     authors_degrees = [deg for _, deg in data]
     plot_percentage_histogram(title=title, xlabel="Stopień wierzchołka",
-                              ylabel="Procentowy udział", data=authors_degrees, bins=10)
+                              ylabel="Procentowy udział", data=authors_degrees, bins=len(authors_degrees), log=True)
 
 
 def show_publications_degree_distribution(data):
@@ -39,9 +40,23 @@ def show_connected_parts_distribution(data, title):
 
 
 def show_parallel_edges_distribution(data):
-    data = [val for _, val in data]
-    plot_percentage_histogram(title="Rozkład stopnia zwielokrotnienia równoległych krawędzi grafu",
-                              xlabel="Stopien zwielokrotnienia", ylabel="Procentowy udział", data=data, bins=2)
+    parallel_edges_values = [val for _, val in data]
+    length = len(parallel_edges_values)
+    grouped_values = Counter(parallel_edges_values)
+    x_label = list(map(str, grouped_values.keys()))
+    y_data = [item/length * 100 for item in grouped_values.values()]
+    x_pos = np.arange(len(x_label))
+    plt.figure()
+    plt.title("Rozkład stopnia zwielokrotnienia równoległych krawędzi grafu")
+    plt.xlabel("Stopien zwielokrotnienia")
+    plt.ylabel("Procentowy udział")
+    plt.xticks(x_pos, x_label)
+    fmt = '%.0f%%'
+    yticks = FormatStrFormatter(fmt)
+    plt.gca().yaxis.set_major_formatter(yticks)
+    plt.bar(x_pos, y_data)
+    plt.gca().invert_xaxis()
+    plt.show()
 
 
 def show_clustering_coef_distribution(data):
@@ -53,5 +68,5 @@ def show_clustering_coef_distribution(data):
 def show_mutual_pub_distribution(data):
     mutual_publications = [val for _, val in data]
     plot_percentage_histogram(title="Rozkład liczby wspólnych publikacji",
-                              xlabel="Liczba wspólnych publikacji",
-                              ylabel="Procentowy udział", data=mutual_publications, bins=20)
+                              xlabel="Odsetek wspólnych publikacji",
+                              ylabel="Procentowy udział", data=mutual_publications, bins=20, log=True)

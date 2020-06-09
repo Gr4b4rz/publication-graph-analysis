@@ -26,12 +26,15 @@ def main():
 
     authors_degrees = ga.get_deg_list_by_partition(
         graph=ctx.publications_graph, partition='authors')
-    gv.show_degree_distribution(data=authors_degrees, title="Rozkład stopni wierzchołków autorów")
+    gv.show_degree_distribution(data=authors_degrees,
+                                title="Rozkład stopni wierzchołków autorów",
+                                xlabel="Stopień wierzchołka - liczba publikacji")
 
     publications_degrees = ga.get_deg_list_by_partition(
         graph=ctx.publications_graph, partition='titles')
     gv.show_degree_distribution(data=publications_degrees,
-                                title="Rozkład stopni wierzchołków publikacji")
+                                title="Rozkład stopni wierzchołków publikacji",
+                                xlabel="Stopień wierzchołka - liczba współautorów")
 
     # Rozkład długości drogi między wierzchołkami dla grafu współautorstwa
     path_lengths = ga.get_path_length_between_each_node(graph=ctx.co_authorship_graph)
@@ -58,7 +61,6 @@ def main():
 
     # Dla grafu współautorstwa wyznaczyć rozkład stopnia zwielokrotnienia
     parallel_edges = ga.get_parallel_edges_distribution(multi_graph=ctx.co_authorship_graph)
-    # parallel_edges = [1,1,1,1,1,0,0,0,0,1,0,0,1]
     gv.show_parallel_edges_distribution(data=parallel_edges)
 
     # Rozkład odsetka wspólnych publikacji

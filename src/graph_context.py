@@ -1,8 +1,6 @@
 import pandas as pd
 import networkx as nx
-from networkx.algorithms import bipartite
 from itertools import combinations
-from collections import defaultdict
 
 
 class GraphContext:
@@ -29,8 +27,7 @@ class GraphContext:
         for _, row in self.original_df.iterrows():
             authors_affiliations_mapper.update(dict(zip(list(map(lambda x: x.strip(), row['Authors'].split(';'))),
                                              row['Author Affiliations'].split(';'))))
-        from pprint import pprint
-        pprint(authors_affiliations_mapper)
+
         return {author for author, affiliations in authors_affiliations_mapper.items()
                 if wut_affiliation.lower() in affiliations.lower()}
 

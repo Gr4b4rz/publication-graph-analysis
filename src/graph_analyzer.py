@@ -33,7 +33,11 @@ def get_path_length_between_each_node(graph):
     """
     Get path length distribution for given graph
     """
-    return nx.shortest_path_length(graph)
+    lengths = nx.shortest_path_length(graph)
+    for x, y in lengths:
+        del y[x]
+        yield (x, y)
+    return
 
 
 def get_connected_parts_dist(graph, partition):

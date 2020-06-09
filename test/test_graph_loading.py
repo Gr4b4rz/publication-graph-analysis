@@ -39,9 +39,7 @@ class TestGraphAnalysis:
         assert sorted(auth_deg_list, reverse=True) == expected_auth_deg_list
 
     def test_path_length_calculation(self):
-        # According to guidelines, there should be co_authorship_graph,
-        # but I think it must be simple_co_authorship_graph
-        lengths = analyzer.get_path_length_between_each_node(self.ctx.simple_co_authorship_graph)
+        lengths = analyzer.get_path_length_between_each_node(self.ctx.co_authorship_graph)
         # nothing to test ...
         assert lengths
 

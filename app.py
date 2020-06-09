@@ -7,7 +7,23 @@ from pprint import pprint
 def main():
     ctx = GraphContext(path='resources/publications.csv')
 
+    # Liczba wierzchołków i krawędzi
+    print("Graf dwudzielny")
+    print("Liczba autorów: {}".format(
+        ga.get_number_of_nodes_by_partition(ctx.publications_graph, "authors")))
+    print("Liczba publikacji: {}".format(
+        ga.get_number_of_nodes_by_partition(ctx.publications_graph, "titles")))
+    print("Liczba krawędzi: {}".format(ctx.publications_graph.number_of_edges()))
+
+    print("\nGraf współautorstwa")
+    print("Liczba wierzchołków: {}".format(ctx.co_authorship_graph.number_of_nodes()))
+    print("Liczba krawędzi: {}".format(ctx.co_authorship_graph.number_of_edges()))
+
+    print("\nGraf prosty")
+    print("Liczba wierzchołków: {}".format(ctx.simple_co_authorship_graph.number_of_nodes()))
+    print("Liczba krawędzi: {}\n".format(ctx.simple_co_authorship_graph.number_of_edges()))
     # rozkład stopni wierzchołków
+
     authors_degrees = ga.get_deg_list_by_partition(
         graph=ctx.publications_graph, partition='authors')
     gv.show_degree_distribution(data=authors_degrees, title="Rozkład stopni wierzchołków autorów")

@@ -2,6 +2,7 @@ import pandas as pd
 import networkx as nx
 from networkx.algorithms import bipartite
 from itertools import combinations
+from collections import defaultdict
 
 
 class GraphContext:
@@ -28,8 +29,10 @@ class GraphContext:
         for _, row in self.original_df.iterrows():
             authors_affiliations_mapper.update(dict(zip(list(map(lambda x: x.strip(), row['Authors'].split(';'))),
                                              row['Author Affiliations'].split(';'))))
+        from pprint import pprint
+        pprint(authors_affiliations_mapper)
         return {author for author, affiliations in authors_affiliations_mapper.items()
-                if wut_affiliation in affiliations}
+                if wut_affiliation.lower() in affiliations.lower()}
 
     @property
     def raw_data(self):
@@ -64,4 +67,10 @@ class GraphContext:
         return self._simple_co_authorship_graph
 
     def _retrieve_co_authorship_graph_edges(self):
-        return self.original_df.Authors.str.split('; ').apply(lambda x: combinations(x, 2)).tolist()
+        grouped_authors = self.original_df.Authors.str.split('; ')
+        co_authorship = []
+        for item in grouped_authors:
+            wut_authors = list(filter(lambda x: x in self._wut_authors, item))
+            if len(wut_authors) > 1:
+                co_authorship.append(combinations(wut_authors, 2))
+        return co_authorship
